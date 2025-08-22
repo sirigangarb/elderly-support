@@ -1,0 +1,226 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Chart.js Example</title>
+   <style>
+     /* General page styling */
+     body {
+       background-color: #ffff /* white background */
+       font-family: Arial, sans-serif; /* Font style */
+       color: #333; /* Text color */
+       padding: 20px; /* Add padding to the body */
+       margin: 0; /* Remove default margin */
+     }
+ 
+     .button-container {
+       text-align: center; /* Center the button */
+       margin: 20px 0; /* Add space above and below the button */
+     }
+ 
+     .redirect-button {
+       background-color: #007BFF; /* Bootstrap Primary Color */
+       color: white; /* Text color */
+       border: none; /* Remove default border */
+       padding: 10px 20px; /* Add some padding */
+       border-radius: 5px; /* Rounded corners */
+       cursor: pointer; /* Change cursor on hover */
+       font-size: 16px; /* Font size */
+     }
+ 
+     .redirect-button:hover {
+       background-color: #0056b3; /* Darker color on hover */
+     }
+ 
+     /* Container styling for the charts */
+     .chart-container {
+       width: 80%; /* Set the width of the charts */
+       max-width: 800px; /* Maximum width for larger screens */
+       margin: 0 auto; /* Center the charts horizontally */
+       margin-bottom: 30px; /* Space below each chart */
+     }
+ 
+     /* Styling for individual charts */
+     canvas {
+       height: 400px; /* Set the height of the charts */
+       border: 2px solid #000; /* Black border for the charts */
+       border-radius: 8px; /* Optional: rounded corners for the border */
+     }
+ 
+     /* Styling for the chart descriptions */
+     .chart-description {
+       text-align: center; /* Center the text */
+       margin-bottom: 10px; /* Space below the text */
+       font-size: 18px; /* Font size for descriptions */
+     }
+ 
+     /* Center the button container */
+     .button-container {
+       text-align: center; /* Center the button */
+       margin-top: 20px; /* Add space above the button */
+     }
+   </style>
+ </head>
+ <body>
+   <div class="chart-container">
+     <p class="chart-description">Bar Chart: Number of Users by Facility</p>
+     <canvas id="myBarChart"></canvas>
+   </div>
+ 
+   <div class="chart-container">
+     <p class="chart-description">Pie Chart: Number of Users by Day of the Week</p>
+     <canvas id="myPieChart"></canvas>
+   </div>
+ 
+   <div class="chart-container">
+     <p class="chart-description">Line Chart: Number of Users by Locality</p>
+     <canvas id="myLineChart"></canvas>
+   </div>
+ 
+   <!-- Button to navigate to the home page -->
+   <div class="button-container">
+     <button onclick="window.location.href='/'" class="redirect-button">Go to Home Page</button>
+   </div>
+ 
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+   <script>
+     // Bar Chart
+     const ctxBar = document.getElementById('myBarChart').getContext('2d');
+ 
+     new Chart(ctxBar, {
+       type: 'bar',
+       data: {
+         labels: ['Hospitals', 'Hospices', 'Nursing', 'Elderly Care Services', 'Pharmacy'],
+         datasets: [{
+           label: 'No. of Users (Monthly Average)',
+           data: [56, 34, 37, 22, 49],
+           backgroundColor: [
+             'rgba(255, 99, 132, 0.2)',
+             'rgba(54, 162, 235, 0.2)',
+             'rgba(255, 206, 86, 0.2)',
+             'rgba(75, 192, 192, 0.2)',
+             'rgba(153, 102, 255, 0.2)'
+           ],
+           borderColor: [
+             'rgba(255, 99, 132, 1)',
+             'rgba(54, 162, 235, 1)',
+             'rgba(255, 206, 86, 1)',
+             'rgba(75, 192, 192, 1)',
+             'rgba(153, 102, 255, 1)'
+           ],
+           borderWidth: 2
+         }]
+       },
+       options: {
+         scales: {
+           y: {
+             beginAtZero: true,
+             title: {
+               display: true,
+               text: 'Number of Users (Monthly Average)'
+             }
+           },
+           x: {
+             title: {
+               display: true,
+               text: 'Facilities'
+             }
+           }
+         }
+       }
+     });
+ 
+     // Pie Chart
+     const ctxPie = document.getElementById('myPieChart').getContext('2d');
+ 
+     new Chart(ctxPie, {
+       type: 'pie',
+       data: {
+         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+         datasets: [{
+           label: 'No. of Users (Monthly Average)',
+           data: [34, 47, 23, 39, 50, 29, 54],
+           backgroundColor: [
+             'rgba(255, 99, 100, 0.2)',
+             'rgba(54, 162, 235, 0.2)',
+             'rgba(255, 206, 86, 0.2)',
+             'rgba(75, 192, 192, 0.2)',
+             'rgba(153, 102, 255, 0.2)',
+             'rgba(255, 159, 64, 0.2)',
+             'rgba(255, 99, 132, 0.2)'
+           ],
+           borderColor: [
+             'rgba(255, 99, 132, 1)',
+             'rgba(54, 162, 235, 1)',
+             'rgba(255, 206, 86, 1)',
+             'rgba(75, 192, 192, 1)',
+             'rgba(153, 102, 255, 1)',
+             'rgba(255, 159, 64, 1)',
+             'rgba(255, 99, 132, 1)'
+           ],
+           borderWidth: 2
+         }]
+       },
+       options: {
+         plugins: {
+           legend: {
+             position: 'top'
+           },
+           tooltip: {
+             callbacks: {
+               label: function(context) {
+                 let label = context.label || '';
+                 if (label) {
+                   label += ': ';
+                 }
+                 if (context.parsed) {
+                   label += `${context.parsed.toLocaleString()}`;
+                 }
+                 return label;
+               }
+             }
+           }
+         }
+       }
+     });
+ 
+     // Line Chart
+     const ctxLine = document.getElementById('myLineChart').getContext('2d');
+ 
+     new Chart(ctxLine, {
+       type: 'line',
+       data: {
+         labels: ['North Bangalore', 'Central Bangalore', 'East Bangalore', 'West Bangalore', 'South Bangalore'],
+         datasets: [{
+           label: 'No. of Users',
+           data: [12, 24, 14, 21, 29],
+           fill: false,
+           borderColor: 'rgba(75, 192, 192, 1)',
+           backgroundColor: 'rgba(75, 192, 192, 0.2)',
+           tension: 0.1
+         }]
+       },
+       options: {
+         scales: {
+           y: {
+             beginAtZero: true,
+             title: {
+               display: true,
+               text: 'Number of Users'
+             }
+           },
+           x: {
+             title: {
+               display: true,
+               text: 'Locality'
+             }
+           }
+         }
+       }
+     });
+   </script>
+ </body>
+ </html>
+ 
